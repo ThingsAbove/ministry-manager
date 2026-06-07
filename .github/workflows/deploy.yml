@@ -73,7 +73,10 @@ jobs:
 
   deploy:
     needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      github.event_name == 'push' &&
+      secrets.AZURE_CREDENTIALS != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
