@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Rota — {{ block.super }}{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between">
+  <h1 class="text-2xl font-bold text-slate-900">Rota Grid</h1>
+  <div class="flex gap-2">
+    <a href="?week={{ prev_week|date:'Y-m-d' }}" class="btn-secondary text-xs">Previous week</a>
+    <a href="?week={{ next_week|date:'Y-m-d' }}" class="btn-secondary text-xs">Next week</a>
+  </div>
+</div>
+<p class="mt-1 text-sm text-slate-600">{{ week_start|date:"M j" }} – {{ week_end|date:"M j, Y" }}</p>
+
+<div class="mt-6 space-y-8">
+  {% for occ in occurrences %}
+  <section class="card">
+    <h2 class="font-semibold">{{ occ.service_time.name }} — {{ occ.date|date:"l, M j" }} {{ occ.start_time|time:"g:i A" }}</h2>
+    <p class="text-sm text-slate-500">{{ occ.service_time.campus.name }}</p>
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b text-left text-slate-500">
+            <th class="py-2">Team / Role</th>
+            <th class="py-2">Volunteer</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in assignments %}
+          {% if a.service_occurrence_id == occ.pk %}
+          <tr class="border-b border-slate-100">
+            <td class="py-2">{{ a.team_role.team.name }} — {{ a.team_role.name }}</td>
+            <td class="py-2">
+              {% include "scheduling/partials/rota_cell.html" with assignment=a volunteers=a.team_role.team.memberships.all %}
+            </td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% empty %}
+  <p class="text-slate-500">No services this week. Generate occurrences first.</p>
+  {% endfor %}
+</div>
+{% endblock %}

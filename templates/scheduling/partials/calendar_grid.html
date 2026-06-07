@@ -1,0 +1,36 @@
+{% if feedback %}
+<p class="mb-4 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-800">{{ feedback }}</p>
+{% endif %}
+<div class="flex items-center justify-between mb-4">
+  <a href="?year={{ prev_year }}&month={{ prev_month }}" class="btn-secondary text-xs">Previous</a>
+  <h2 class="font-semibold">{{ first_of_month|date:"F Y" }}</h2>
+  <a href="?year={{ next_year }}&month={{ next_month }}" class="btn-secondary text-xs">Next</a>
+</div>
+<p class="mb-3 text-xs text-slate-500">
+  Click a date to block it (highlighted red). Click again to unblock. Changes save immediately.
+</p>
+<div class="grid grid-cols-7 gap-1 text-center text-xs">
+  <div class="font-medium text-slate-500">Mon</div>
+  <div class="font-medium text-slate-500">Tue</div>
+  <div class="font-medium text-slate-500">Wed</div>
+  <div class="font-medium text-slate-500">Thu</div>
+  <div class="font-medium text-slate-500">Fri</div>
+  <div class="font-medium text-slate-500">Sat</div>
+  <div class="font-medium text-slate-500">Sun</div>
+  {% for week in weeks %}
+    {% for day in week %}
+    {% if day %}
+    <button type="button"
+            class="rounded-lg py-2 text-sm transition-colors {% if day in blocked_dates %}bg-red-100 text-red-800 font-semibold ring-2 ring-red-300{% else %}hover:bg-slate-100{% endif %}"
+            hx-post="{% url 'scheduling:block_outs' %}?year={{ year }}&month={{ month }}"
+            hx-vals='{"date": "{{ day|date:"Y-m-d" }}"}'
+            hx-target="#calendar"
+            hx-swap="innerHTML">
+      {{ day.day }}
+    </button>
+    {% else %}
+    <div></div>
+    {% endif %}
+    {% endfor %}
+  {% endfor %}
+</div>

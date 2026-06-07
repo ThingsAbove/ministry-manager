@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ church_name }} — Ministry Manager{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <script>
+    document.body.addEventListener("htmx:configRequest", (event) => {
+      const token = document.querySelector('meta[name="csrf-token"]');
+      if (token) {
+        event.detail.headers["X-CSRFToken"] = token.content;
+      }
+    });
+  </script>
+</head>
+<body class="h-full">
+  <div class="flex min-h-full">
+    {% if user.is_authenticated %}
+    <aside class="hidden w-64 flex-shrink-0 border-r border-slate-200 bg-white lg:block">
+      <div class="flex h-16 items-center border-b border-slate-200 px-6">
+        <span class="text-lg font-semibold text-indigo-700">{{ church_name }}</span>
+      </div>
+      <nav class="space-y-1 p-4 text-sm">
+        <a href="{% url 'core:dashboard' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Dashboard</a>
+        <a href="{% url 'scheduling:my_schedule' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">My Schedule</a>
+        <a href="{% url 'scheduling:block_outs' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Block-Out Dates</a>
+        <a href="{% url 'accounts:profile' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Profile</a>
+        {% if user.is_staff or user.is_team_leader %}
+        <hr class="my-3 border-slate-200">
+        <p class="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Leader</p>
+        <a href="{% url 'scheduling:rota' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Rota Grid</a>
+        <a href="{% url 'scheduling:auto_schedule' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Auto-Schedule</a>
+        <a href="{% url 'teams:list' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Teams</a>
+        <a href="{% url 'campuses:list' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Campuses</a>
+        <a href="{% url 'communications:mass_message' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Mass Message</a>
+        {% endif %}
+        {% if user.is_staff %}
+        <a href="{% url 'admin:index' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Admin</a>
+        {% endif %}
+      </nav>
+      <div class="absolute bottom-0 w-64 border-t border-slate-200 p-4">
+        <p class="text-sm font-medium text-slate-700">{{ user.display_name }}</p>
+        <form method="post" action="{% url 'accounts:logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="mt-1 text-sm text-indigo-600 hover:text-indigo-800">Sign out</button>
+        </form>
+      </div>
+    </aside>
+    {% endif %}
+
+    <main class="flex-1">
+      {% if user.is_authenticated %}
+      <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 lg:hidden">
+        <span class="font-semibold text-indigo-700">{{ church_name }}</span>
+        <a href="{% url 'accounts:logout' %}" class="text-sm text-indigo-600">Sign out</a>
+      </header>
+      {% endif %}
+
+      <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {% if messages %}
+        <div class="mb-6 space-y-2">
+          {% for message in messages %}
+          <div class="rounded-lg border border-indigo-200 bg-indigo-50 px-4 py-3 text-sm text-indigo-800">{{ message }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </div>
+</body>
+</html>

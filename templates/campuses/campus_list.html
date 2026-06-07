@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Campuses — {{ block.super }}{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between">
+  <h1 class="text-2xl font-bold text-slate-900">Campuses & Services</h1>
+  <div class="flex gap-2">
+    <a href="{% url 'campuses:create' %}" class="btn-primary">Add Campus</a>
+    <a href="{% url 'campuses:service_time_create' %}" class="btn-secondary">Add Service Time</a>
+  </div>
+</div>
+<div class="mt-8 space-y-6">
+  {% for campus in campuses %}
+  <section class="card">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold">{{ campus.name }}</h2>
+      <a href="{% url 'campuses:edit' campus.pk %}" class="text-sm text-indigo-600">Edit</a>
+    </div>
+    {% if campus.address %}<p class="mt-1 text-sm text-slate-500">{{ campus.address }}</p>{% endif %}
+    <ul class="mt-4 divide-y divide-slate-100">
+      {% for st in campus.service_times.all %}
+      <li class="flex items-center justify-between py-2 text-sm">
+        <span>{{ st.name }} — {{ st.get_weekday_display }} {{ st.start_time|time:"g:i A" }}</span>
+        <a href="{% url 'campuses:service_time_edit' st.pk %}" class="text-indigo-600">Edit</a>
+      </li>
+      {% empty %}
+      <li class="py-2 text-sm text-slate-500">No service times configured.</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% empty %}
+  <p class="text-slate-500">No campuses yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

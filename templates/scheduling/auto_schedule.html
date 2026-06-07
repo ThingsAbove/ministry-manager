@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Auto-Schedule — {{ block.super }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-900">Auto-Schedule</h1>
+<p class="mt-1 text-slate-600">Automatically assign volunteers based on preferences, skills, and availability.</p>
+<div class="card mt-6 max-w-lg">
+  <form method="post"
+        hx-post="{% url 'scheduling:auto_schedule' %}"
+        hx-target="#auto-schedule-result"
+        hx-swap="innerHTML">
+    {% csrf_token %}
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-700">Start date</label>
+        {{ form.start_date }}
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700">End date</label>
+        {{ form.end_date }}
+      </div>
+    </div>
+    <button type="submit" class="btn-primary mt-4">Run auto-schedule</button>
+  </form>
+  <div id="auto-schedule-result" class="mt-4"></div>
+</div>
+{% endblock %}

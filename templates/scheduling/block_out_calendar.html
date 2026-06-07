@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Block-Out Dates — {{ block.super }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-900">Block-Out Dates</h1>
+<p class="mt-1 text-slate-600">Click a date to block it out. Blocked dates appear in red and save automatically.</p>
+<div class="card mt-6">
+  <div id="calendar">
+    {% include "scheduling/partials/calendar_grid.html" %}
+  </div>
+</div>
+{% endblock %}

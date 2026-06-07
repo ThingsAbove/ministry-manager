@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — {{ block.super }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-900">Dashboard</h1>
+<p class="mt-1 text-slate-600">Welcome back, {{ user.display_name }}.</p>
+
+<div class="mt-8 grid gap-6 lg:grid-cols-2">
+  <section class="card">
+    <h2 class="text-lg font-semibold text-slate-900">Upcoming Shifts</h2>
+    {% if upcoming_assignments %}
+    <ul class="mt-4 divide-y divide-slate-100">
+      {% for a in upcoming_assignments %}
+      <li class="flex items-center justify-between py-3">
+        <div>
+          <p class="font-medium text-slate-900">{{ a.team_role.team.name }} — {{ a.team_role.name }}</p>
+          <p class="text-sm text-slate-500">{{ a.service_occurrence.date|date:"D, M j" }} · {{ a.service_occurrence.start_time|time:"g:i A" }}</p>
+        </div>
+        {% if a.rsvp %}
+          {% if a.rsvp.status == "accepted" %}<span class="badge-green">Accepted</span>
+          {% elif a.rsvp.status == "declined" %}<span class="badge-red">Declined</span>
+          {% else %}<span class="badge-yellow">Pending RSVP</span>{% endif %}
+        {% else %}
+          <span class="badge-gray">Scheduled</span>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="mt-4 text-sm text-slate-500">No upcoming shifts scheduled.</p>
+    {% endif %}
+    <a href="{% url 'scheduling:my_schedule' %}" class="btn-secondary mt-4">View full schedule</a>
+  </section>
+
+  {% if user.is_staff or user.is_team_leader %}
+  <section class="card">
+    <h2 class="text-lg font-semibold text-slate-900">Leader Alerts</h2>
+    {% if unfilled_count %}
+    <p class="mt-4 text-sm text-amber-700">{{ unfilled_count }} unfilled slot{{ unfilled_count|pluralize }} in upcoming services.</p>
+    <a href="{% url 'scheduling:rota' %}" class="btn-primary mt-4">View rota</a>
+    {% else %}
+    <p class="mt-4 text-sm text-slate-500">All upcoming slots are filled.</p>
+    {% endif %}
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

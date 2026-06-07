@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Profile — {{ block.super }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-900">My Profile</h1>
+<div id="profile-form" class="mt-6 max-w-2xl">
+  {% include "accounts/partials/profile_form.html" %}
+</div>
+{% endblock %}

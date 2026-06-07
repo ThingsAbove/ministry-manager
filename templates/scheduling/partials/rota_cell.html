@@ -1,0 +1,21 @@
+<div id="assignment-{{ assignment.pk }}">
+  {% if conflict %}
+  <p class="mb-1 text-xs text-red-600">{{ conflict }}</p>
+  {% endif %}
+  <select name="volunteer_id"
+          class="input text-sm"
+          hx-post="{% url 'scheduling:rota' %}?week={{ assignment.service_occurrence.date|date:'Y-m-d' }}"
+          hx-vals='{"assignment_id": "{{ assignment.pk }}"}'
+          hx-include="this"
+          hx-target="#assignment-{{ assignment.pk }}"
+          hx-swap="outerHTML">
+    <option value="">— Unfilled —</option>
+    {% for m in assignment.team_role.team.memberships.all %}
+    {% if m.is_active %}
+    <option value="{{ m.volunteer.pk }}" {% if assignment.volunteer_id == m.volunteer.pk %}selected{% endif %}>
+      {{ m.volunteer.user.display_name }}
+    </option>
+    {% endif %}
+    {% endfor %}
+  </select>
+</div>

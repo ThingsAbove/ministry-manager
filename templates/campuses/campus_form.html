@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} — {{ block.super }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-900">{{ title }}</h1>
+<form method="post" class="card mt-6 max-w-lg space-y-4">
+  {% csrf_token %}
+  {% for field in form %}
+  <div>
+    <label class="block text-sm font-medium text-slate-700">{{ field.label }}</label>
+    {{ field }}
+  </div>
+  {% endfor %}
+  <div class="flex gap-2">
+    <button type="submit" class="btn-primary">Save</button>
+    <a href="{% url 'campuses:list' %}" class="btn-secondary">Cancel</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}RSVP — {{ block.super }}{% endblock %}
+{% block content %}
+<div class="mx-auto max-w-md card text-center">
+  {% if error %}
+  <p class="text-red-600">{{ error }}</p>
+  {% else %}
+  <h1 class="text-xl font-bold text-slate-900">
+    {% if accepted %}Thanks — you're confirmed!{% else %}Shift declined{% endif %}
+  </h1>
+  <p class="mt-2 text-sm text-slate-600">
+    {{ assignment.team_role.team.name }} — {{ assignment.team_role.name }}<br>
+    {{ assignment.service_occurrence.date|date:"l, F j, Y" }}
+  </p>
+  {% endif %}
+</div>
+{% endblock %}
