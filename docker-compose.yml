@@ -41,6 +41,8 @@ services:
     environment:
       DATABASE_URL: postgres://ministry:ministry@db:5432/ministry_manager
       REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
       DJANGO_SETTINGS_MODULE: ministry_manager.settings.local
     depends_on:
       db:
@@ -58,6 +60,8 @@ services:
     environment:
       DATABASE_URL: postgres://ministry:ministry@db:5432/ministry_manager
       REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
       DJANGO_SETTINGS_MODULE: ministry_manager.settings.local
     depends_on:
       db:
@@ -75,6 +79,8 @@ services:
     environment:
       DATABASE_URL: postgres://ministry:ministry@db:5432/ministry_manager
       REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
       DJANGO_SETTINGS_MODULE: ministry_manager.settings.local
     depends_on:
       db:

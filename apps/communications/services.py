@@ -37,6 +37,13 @@ def send_sms(to_number, body):
         return None, str(exc)
 
 
+def resolve_email_delivery(user, subject):
+    if user and user.is_test_user:
+        tag = f"[Test:{user.username}] {user.display_name}"
+        return settings.TEST_EMAIL_ADDRESS, f"{tag} — {subject}"
+    return user.email, subject
+
+
 def send_email(to_email, subject, body, html_body=None):
     if not to_email:
         return False, "No email address"
@@ -80,16 +87,22 @@ def dispatch_notification(notification):
             notification.error_message = error or "Unknown error"
     elif notification.channel == NotificationChannel.EMAIL:
         email = None
+        subject = notification.subject
+        user = None
         if notification.recipient:
             if not notification.recipient.email_opt_in:
                 notification.status = NotificationStatus.SKIPPED
                 notification.error_message = "Email opt-out"
                 notification.save()
                 return notification
+            user = notification.recipient.user
             email = notification.recipient.contact_email
         elif notification.recipient_user:
+            user = notification.recipient_user
             email = notification.recipient_user.email
-        ok, error = send_email(email, notification.subject, notification.body)
+        if user:
+            email, subject = resolve_email_delivery(user, subject)
+        ok, error = send_email(email, subject, notification.body)
         if ok:
             notification.status = NotificationStatus.SENT
             notification.sent_at = timezone.now()

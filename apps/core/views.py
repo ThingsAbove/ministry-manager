@@ -4,6 +4,8 @@ from django.utils import timezone
 
 from apps.scheduling.models import Assignment
 
+from .staffing import build_staffing_overview
+
 
 @login_required
 def dashboard(request):
@@ -21,17 +23,12 @@ def dashboard(request):
         .order_by("service_occurrence__date", "service_occurrence__start_time")[:10]
     )
 
-    unfilled_count = 0
-    if request.user.is_staff or request.user.groups.filter(name="TeamLeader").exists():
-        unfilled_count = (
-            Assignment.objects.filter(
-                volunteer__isnull=True,
-                service_occurrence__date__gte=today,
-            ).count()
-        )
+    is_leader = request.user.is_staff or request.user.groups.filter(name="TeamLeader").exists()
+    staffing = build_staffing_overview(request.user) if is_leader else None
 
     context = {
         "upcoming_assignments": upcoming,
-        "unfilled_count": unfilled_count,
+        "staffing": staffing,
+        "is_leader": is_leader,
     }
     return render(request, "core/dashboard.html", context)

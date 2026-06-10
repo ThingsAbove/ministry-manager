@@ -5,6 +5,7 @@ from django.db import models
 
 class User(AbstractUser):
     phone = models.CharField(max_length=20, blank=True)
+    is_test_user = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["last_name", "first_name"]

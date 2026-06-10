@@ -19,11 +19,7 @@
         <td class="py-3">{{ a.team_role.team.name }} — {{ a.team_role.name }}</td>
         <td class="py-3">{{ a.service_occurrence.service_time.campus.name }}</td>
         <td class="py-3">
-          {% if a.rsvp %}
-            {% if a.rsvp.status == "accepted" %}<span class="badge-green">Accepted</span>
-            {% elif a.rsvp.status == "declined" %}<span class="badge-red">Declined</span>
-            {% else %}<span class="badge-yellow">Pending</span>{% endif %}
-          {% else %}<span class="badge-gray">—</span>{% endif %}
+          {% include "scheduling/partials/rsvp_controls.html" with assignment=a %}
         </td>
       </tr>
       {% empty %}

@@ -13,9 +13,18 @@ class VolunteerProfileInline(admin.StackedInline):
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     inlines = [VolunteerProfileInline]
-    list_display = ["username", "email", "first_name", "last_name", "is_staff"]
+    list_display = [
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_staff",
+        "is_test_user",
+    ]
+    list_filter = BaseUserAdmin.list_filter + ("is_test_user",)
     fieldsets = BaseUserAdmin.fieldsets + (
         ("Contact", {"fields": ("phone",)}),
+        ("Demo", {"fields": ("is_test_user",)}),
     )
 
 

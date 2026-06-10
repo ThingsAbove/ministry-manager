@@ -7,9 +7,13 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.views.decorators.http import require_POST
+
+from apps.communications.rsvp_service import record_rsvp
 
 from apps.accounts.models import VolunteerProfile
 from apps.campuses.models import ServiceOccurrence
+from apps.teams.views import user_can_manage_team
 
 from .calendar_utils import month_calendar_weeks, shift_month
 from .models import Assignment, BlockOutDate
@@ -83,6 +87,27 @@ def my_schedule(request):
 
 
 @login_required
+@require_POST
+def assignment_rsvp(request, assignment_id):
+    assignment = get_object_or_404(
+        Assignment.objects.select_related("rsvp", "team_role__team", "service_occurrence"),
+        pk=assignment_id,
+        volunteer__user=request.user,
+    )
+    accept = request.POST.get("response") == "accept"
+    record_rsvp(assignment, accept=accept)
+    assignment.refresh_from_db()
+
+    if request.htmx:
+        return render(
+            request,
+            "scheduling/partials/rsvp_controls.html",
+            {"assignment": assignment},
+        )
+    return redirect("scheduling:my_schedule")
+
+
+@login_required
 def block_out_calendar(request):
     profile = request.user.volunteer_profile
     today = timezone.localdate()
@@ -133,17 +158,49 @@ def rota_grid(request):
 
     assignments = (
         Assignment.objects.filter(service_occurrence__in=occurrences)
-        .select_related("team_role__team", "volunteer__user", "service_occurrence")
+        .select_related(
+            "team_role__team",
+            "volunteer__user",
+            "service_occurrence",
+            "rsvp",
+        )
         .order_by("service_occurrence__date", "team_role__team__name", "team_role__name")
     )
+    if not request.user.is_staff:
+        assignments = assignments.filter(team_role__team__leaders=request.user)
 
     if request.method == "POST" and request.htmx:
         assignment_id = request.POST.get("assignment_id")
         volunteer_id = request.POST.get("volunteer_id") or None
-        assignment = get_object_or_404(Assignment, pk=assignment_id)
+        assignment = get_object_or_404(
+            Assignment.objects.select_related("rsvp", "team_role__team", "service_occurrence"),
+            pk=assignment_id,
+        )
+        if not user_can_manage_team(request.user, assignment.team_role.team):
+            return render(
+                request,
+                "scheduling/partials/rota_row.html",
+                {
+                    "assignment": assignment,
+                    "conflict": "You cannot manage this team.",
+                    "week_start": week_start,
+                },
+            )
+        previous_volunteer_id = assignment.volunteer_id
         try:
             assignment.volunteer_id = int(volunteer_id) if volunteer_id else None
             assignment.save()
+            if previous_volunteer_id != assignment.volunteer_id:
+                from apps.communications.models import RSVP, RSVPStatus
+
+                RSVP.objects.update_or_create(
+                    assignment=assignment,
+                    defaults={
+                        "status": RSVPStatus.PENDING,
+                        "responded_at": None,
+                    },
+                )
+                assignment.refresh_from_db()
             conflict = None
         except IntegrityError:
             conflict = "This volunteer is already assigned during this service."
@@ -152,17 +209,13 @@ def rota_grid(request):
             conflict = exc.messages[0] if exc.messages else str(exc)
             assignment.refresh_from_db()
 
-        volunteers = VolunteerProfile.objects.filter(
-            team_memberships__team=assignment.team_role.team,
-            team_memberships__is_active=True,
-        ).select_related("user")
         return render(
             request,
-            "scheduling/partials/rota_cell.html",
+            "scheduling/partials/rota_row.html",
             {
                 "assignment": assignment,
-                "volunteers": volunteers,
                 "conflict": conflict,
+                "week_start": week_start,
             },
         )
 

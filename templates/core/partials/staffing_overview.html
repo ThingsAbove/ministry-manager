@@ -1,0 +1,86 @@
+<section class="card mt-8">
+  <div class="flex flex-wrap items-start justify-between gap-4">
+    <div>
+      <h2 class="text-lg font-semibold text-slate-900">Team Staffing Overview</h2>
+      <p class="mt-1 text-sm text-slate-500">
+        {{ staffing.window_start|date:"M j" }} – {{ staffing.window_end|date:"M j, Y" }}
+        · Assign volunteers on the rota to fill open slots; RSVP confirms an assigned shift.
+      </p>
+    </div>
+    <a href="{% url 'scheduling:rota' %}" class="btn-primary">View rota</a>
+  </div>
+
+  <div class="mt-4 flex flex-wrap gap-3 text-sm">
+    <span class="rounded-full bg-amber-50 px-3 py-1 text-amber-800">
+      {{ staffing.totals.unfilled }} unfilled
+    </span>
+    <span class="rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+      {{ staffing.totals.filled }} assigned
+    </span>
+    <span class="rounded-full bg-green-50 px-3 py-1 text-green-800">
+      {{ staffing.totals.accepted }} accepted
+    </span>
+    <span class="rounded-full bg-yellow-50 px-3 py-1 text-yellow-800">
+      {{ staffing.totals.pending_rsvp }} awaiting RSVP
+    </span>
+    {% if staffing.totals.declined %}
+    <span class="rounded-full bg-red-50 px-3 py-1 text-red-800">
+      {{ staffing.totals.declined }} declined
+    </span>
+    {% endif %}
+  </div>
+
+  {% if staffing.teams %}
+  <div class="mt-6 space-y-8">
+    {% for team_data in staffing.teams %}
+    <div>
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
+        <h3 class="font-semibold text-slate-900">{{ team_data.team.name }}</h3>
+        <p class="text-xs text-slate-500">
+          {{ team_data.unfilled }} unfilled ·
+          {{ team_data.filled }} assigned ·
+          {{ team_data.accepted }} accepted ·
+          {{ team_data.pending_rsvp }} awaiting RSVP
+          {% if team_data.declined %}· {{ team_data.declined }} declined{% endif %}
+        </p>
+      </div>
+      <div class="mt-3 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b text-left text-slate-500">
+              <th class="py-2 pr-4">Date</th>
+              <th class="py-2 pr-4">Role</th>
+              <th class="py-2 pr-4">Volunteer</th>
+              <th class="py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for assignment in team_data.assignments %}
+            <tr class="border-b border-slate-100">
+              <td class="py-2 pr-4 whitespace-nowrap">
+                {{ assignment.service_occurrence.date|date:"D, M j" }}
+                {{ assignment.service_occurrence.start_time|time:"g:i A" }}
+              </td>
+              <td class="py-2 pr-4">{{ assignment.team_role.name }}</td>
+              <td class="py-2 pr-4">
+                {% if assignment.volunteer %}
+                {{ assignment.volunteer.user.display_name }}
+                {% else %}
+                <span class="text-amber-700 font-medium">Needs volunteer</span>
+                {% endif %}
+              </td>
+              <td class="py-2">
+                {% include "core/partials/assignment_rsvp_status.html" with assignment=assignment %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="mt-4 text-sm text-slate-500">No assignments in this period.</p>
+  {% endif %}
+</section>

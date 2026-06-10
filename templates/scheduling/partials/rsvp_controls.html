@@ -1,0 +1,43 @@
+<div id="rsvp-{{ assignment.pk }}" class="flex flex-wrap items-center justify-end gap-2">
+  {% if assignment.rsvp %}
+    {% if assignment.rsvp.status == "accepted" %}
+    <span class="badge-green">Accepted</span>
+    {% elif assignment.rsvp.status == "declined" %}
+    <span class="badge-red">Declined</span>
+    {% else %}
+    <span class="badge-yellow">Pending</span>
+    {% endif %}
+  {% else %}
+  <span class="badge-gray">Scheduled</span>
+  {% endif %}
+  <form
+    hx-post="{% url 'scheduling:assignment_rsvp' assignment.pk %}"
+    hx-target="#rsvp-{{ assignment.pk }}"
+    hx-swap="outerHTML"
+    class="inline"
+  >
+    {% csrf_token %}
+    <input type="hidden" name="response" value="accept">
+    <button
+      type="submit"
+      class="btn-secondary text-xs{% if assignment.rsvp and assignment.rsvp.status == 'accepted' %} ring-2 ring-green-400{% endif %}"
+    >
+      Accept
+    </button>
+  </form>
+  <form
+    hx-post="{% url 'scheduling:assignment_rsvp' assignment.pk %}"
+    hx-target="#rsvp-{{ assignment.pk }}"
+    hx-swap="outerHTML"
+    class="inline"
+  >
+    {% csrf_token %}
+    <input type="hidden" name="response" value="decline">
+    <button
+      type="submit"
+      class="btn-secondary text-xs{% if assignment.rsvp and assignment.rsvp.status == 'declined' %} ring-2 ring-red-400{% endif %}"
+    >
+      Decline
+    </button>
+  </form>
+</div>

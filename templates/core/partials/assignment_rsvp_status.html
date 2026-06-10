@@ -1,0 +1,15 @@
+{% if assignment.volunteer_id %}
+  {% if assignment.rsvp %}
+    {% if assignment.rsvp.status == "accepted" %}
+    <span class="badge-green">Accepted</span>
+    {% elif assignment.rsvp.status == "declined" %}
+    <span class="badge-red">Declined</span>
+    {% else %}
+    <span class="badge-yellow">Pending RSVP</span>
+    {% endif %}
+  {% else %}
+  <span class="badge-yellow">Awaiting RSVP</span>
+  {% endif %}
+{% else %}
+<span class="badge-gray">Unfilled</span>
+{% endif %}

@@ -21,17 +21,13 @@
           <tr class="border-b text-left text-slate-500">
             <th class="py-2">Team / Role</th>
             <th class="py-2">Volunteer</th>
+            <th class="py-2">RSVP</th>
           </tr>
         </thead>
         <tbody>
           {% for a in assignments %}
           {% if a.service_occurrence_id == occ.pk %}
-          <tr class="border-b border-slate-100">
-            <td class="py-2">{{ a.team_role.team.name }} — {{ a.team_role.name }}</td>
-            <td class="py-2">
-              {% include "scheduling/partials/rota_cell.html" with assignment=a volunteers=a.team_role.team.memberships.all %}
-            </td>
-          </tr>
+          {% include "scheduling/partials/rota_row.html" with assignment=a week_start=week_start %}
           {% endif %}
           {% endfor %}
         </tbody>

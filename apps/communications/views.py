@@ -1,12 +1,12 @@
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone
+from django.views.decorators.http import require_POST
 
 from apps.scheduling.models import Assignment
 from apps.teams.models import Team
 
-from .models import RSVP, RSVPStatus
+from .rsvp_service import record_rsvp
 from .tasks import send_mass_message
 from .tokens import verify_rsvp_token
 
@@ -42,30 +42,7 @@ def rsvp_response(request, token, accept):
             {"error": "Invalid or expired link."},
         )
 
-    rsvp, _ = RSVP.objects.get_or_create(assignment=assignment)
-    rsvp.status = RSVPStatus.ACCEPTED if accept else RSVPStatus.DECLINED
-    rsvp.responded_at = timezone.now()
-    rsvp.save()
-
-    if not accept:
-        team = assignment.team_role.team
-        for leader in team.leaders.all():
-            from .models import Notification, NotificationChannel, NotificationType
-            from .services import dispatch_notification
-
-            occ_date = assignment.service_occurrence.date
-            decline_body = (
-                f"{assignment.volunteer} declined {assignment.team_role.name} on {occ_date}"
-            )
-            n = Notification.objects.create(
-                recipient_user=leader,
-                assignment=assignment,
-                notification_type=NotificationType.RSVP,
-                channel=NotificationChannel.EMAIL,
-                subject="Volunteer declined shift",
-                body=decline_body,
-            )
-            dispatch_notification(n)
+    rsvp = record_rsvp(assignment, accept=accept)
 
     return render(
         request,

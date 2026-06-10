@@ -74,11 +74,19 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Run Celery worker and beat in separate terminals:
+Run Celery worker and beat in separate terminals (uses PostgreSQL as the broker when
+`CELERY_BROKER_URL` is not set; Docker Compose uses Redis instead):
 
 ```bash
 celery -A ministry_manager worker -l info
 celery -A ministry_manager beat -l info
+```
+
+To use Redis locally instead of PostgreSQL, set in `.env`:
+
+```
+CELERY_BROKER_URL=redis://localhost:6379/0
+CELERY_RESULT_BACKEND=redis://localhost:6379/0
 ```
 
 ## Environment Variables

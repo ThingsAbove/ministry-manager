@@ -279,6 +279,41 @@ Edit names, slot counts, and roles in **Teams** or Django Admin to match your ch
 
 ---
 
+## Demo / test data
+
+For demonstrations and local testing, seed 30 demo volunteers (8 team leads + 22 members) across all default teams:
+
+```bash
+python manage.py setup_groups
+python manage.py createsuperuser   # admin account — not part of demo data
+python manage.py seed_demo_volunteers --weeks=13
+```
+
+### Demo account conventions
+
+| Item | Value |
+|------|-------|
+| Test user flag | `is_test_user=True` on demo accounts (visible in Django Admin) |
+| Default password | `DemoVolunteer1!` (override with `--password`) |
+| Email in app | `dev@hamradioqrp.com` for all demo users |
+| Actual email delivery | Routed to `TEST_EMAIL_ADDRESS` (`dev@hamradioqrp.com` by default) |
+| Subject prefix | `[Test:{username}] {display name}` so inbox readers can identify the volunteer |
+
+The admin/superuser account is never modified by the seeder. Only users with `is_test_user=True` are removed when using `--reset`.
+
+### Seeder options
+
+```bash
+python manage.py seed_demo_volunteers --reset          # remove and recreate demo users
+python manage.py seed_demo_volunteers --no-schedule    # users and rosters only
+python manage.py seed_demo_volunteers --no-notifications  # skip sample notification emails
+python manage.py seed_demo_volunteers --weeks=13       # ~3 months of service occurrences
+```
+
+The seeder generates service occurrences, runs auto-schedule, leaves a few unfilled Tech team slots for unfilled-alert demos, and seeds sample RSVPs.
+
+---
+
 ## Related documentation
 
 - [README.md](../README.md) — installation, environment variables, deployment

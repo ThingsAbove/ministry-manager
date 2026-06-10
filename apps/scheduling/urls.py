@@ -6,6 +6,11 @@ app_name = "scheduling"
 
 urlpatterns = [
     path("my-schedule/", views.my_schedule, name="my_schedule"),
+    path(
+        "assignments/<int:assignment_id>/rsvp/",
+        views.assignment_rsvp,
+        name="assignment_rsvp",
+    ),
     path("block-outs/", views.block_out_calendar, name="block_outs"),
     path("rota/", views.rota_grid, name="rota"),
     path("auto-schedule/", views.auto_schedule_view, name="auto_schedule"),

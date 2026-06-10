@@ -3,11 +3,11 @@
   <p class="mb-1 text-xs text-red-600">{{ conflict }}</p>
   {% endif %}
   <select name="volunteer_id"
-          class="input text-sm"
-          hx-post="{% url 'scheduling:rota' %}?week={{ assignment.service_occurrence.date|date:'Y-m-d' }}"
+          class="input text-sm min-w-[10rem]"
+          hx-post="{% url 'scheduling:rota' %}?week={{ week_start|date:'Y-m-d' }}"
           hx-vals='{"assignment_id": "{{ assignment.pk }}"}'
           hx-include="this"
-          hx-target="#assignment-{{ assignment.pk }}"
+          hx-target="#rota-row-{{ assignment.pk }}"
           hx-swap="outerHTML">
     <option value="">— Unfilled —</option>
     {% for m in assignment.team_role.team.memberships.all %}
