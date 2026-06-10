@@ -1,10 +1,10 @@
-/* Ministry Manager admin theme — matches main app (indigo + slate) */
+/* Ministry Manager admin theme — warm charcoal (Be Renewed default) */
 
 html[data-theme="light"],
 :root {
-    --primary: #4f46e5;
-    --secondary: #4338ca;
-    --accent: #c7d2fe;
+    --primary: #332f2e;
+    --secondary: #262322;
+    --accent: #c9b8a8;
     --primary-fg: #fff;
 
     --body-fg: #0f172a;
@@ -15,16 +15,16 @@ html[data-theme="light"],
 
     --header-color: #fff;
     --header-branding-color: #fff;
-    --header-bg: #4338ca;
+    --header-bg: #332f2e;
     --header-link-color: #fff;
 
     --breadcrumbs-fg: #e0e7ff;
     --breadcrumbs-link-fg: #fff;
-    --breadcrumbs-bg: #3730a3;
+    --breadcrumbs-bg: #262322;
 
-    --link-fg: #4f46e5;
-    --link-hover-color: #4338ca;
-    --link-selected-fg: #4338ca;
+    --link-fg: #5c5654;
+    --link-hover-color: #332f2e;
+    --link-selected-fg: #332f2e;
 
     --hairline-color: #e2e8f0;
     --border-color: #cbd5e1;
@@ -34,10 +34,10 @@ html[data-theme="light"],
     --selected-row: #eef2ff;
 
     --button-fg: #fff;
-    --button-bg: #4f46e5;
-    --button-hover-bg: #4338ca;
-    --default-button-bg: #4338ca;
-    --default-button-hover-bg: #3730a3;
+    --button-bg: #332f2e;
+    --button-hover-bg: #262322;
+    --default-button-bg: #332f2e;
+    --default-button-hover-bg: #262322;
 }
 
 html[data-theme="dark"] {
@@ -93,7 +93,19 @@ html[data-theme="dark"] {
 }
 
 #branding #site-name a:hover {
-    color: #e0e7ff;
+    color: #c9b8a8;
+}
+
+.mm-admin-branding-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mm-admin-logo {
+    height: 2rem;
+    width: 2rem;
+    object-fit: contain;
 }
 
 .mm-admin-app-link {
@@ -161,9 +173,9 @@ a.button {
 }
 
 .login .form-row input:focus {
-    border-color: #6366f1;
+    border-color: #5c5654;
     outline: none;
-    box-shadow: 0 0 0 1px #6366f1;
+    box-shadow: 0 0 0 1px #5c5654;
 }
 
 .login .submit-row input {

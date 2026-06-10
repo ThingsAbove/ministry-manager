@@ -6,6 +6,9 @@
   <title>{% block title %}{{ church_name }} — Ministry Manager{% endblock %}</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  {% if church_branding_css %}
+  <style id="church-branding">{{ church_branding_css }}</style>
+  {% endif %}
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
   <meta name="csrf-token" content="{{ csrf_token }}">
   <script>
@@ -20,11 +23,11 @@
 <body class="h-full">
   <div class="flex min-h-full">
     {% if user.is_authenticated %}
-    <aside class="hidden w-64 flex-shrink-0 border-r border-slate-200 bg-white lg:block">
-      <div class="flex h-16 items-center border-b border-slate-200 px-6">
-        <span class="text-lg font-semibold text-indigo-700">{{ church_name }}</span>
+    <aside class="mm-sidebar relative hidden w-64 shrink-0 border-r border-slate-200 bg-white lg:block">
+      <div class="mm-sidebar-brand">
+        <img src="{{ church_logo_url }}" alt="{{ church_name }}" class="mm-sidebar-logo">
       </div>
-      <nav class="space-y-1 p-4 text-sm">
+      <nav class="mm-sidebar-nav">
         <a href="{% url 'core:dashboard' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Dashboard</a>
         <a href="{% url 'scheduling:my_schedule' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">My Schedule</a>
         <a href="{% url 'scheduling:block_outs' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Block-Out Dates</a>
@@ -46,7 +49,7 @@
         <p class="text-sm font-medium text-slate-700">{{ user.display_name }}</p>
         <form method="post" action="{% url 'accounts:logout' %}">
           {% csrf_token %}
-          <button type="submit" class="mt-1 text-sm text-indigo-600 hover:text-indigo-800">Sign out</button>
+          <button type="submit" class="mm-brand-link mt-1 text-sm text-indigo-600 hover:text-indigo-800">Sign out</button>
         </form>
       </div>
     </aside>
@@ -54,9 +57,12 @@
 
     <main class="flex-1">
       {% if user.is_authenticated %}
-      <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 lg:hidden">
-        <span class="font-semibold text-indigo-700">{{ church_name }}</span>
-        <a href="{% url 'accounts:logout' %}" class="text-sm text-indigo-600">Sign out</a>
+      <header class="mm-mobile-header flex h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 lg:hidden">
+        <div class="flex min-w-0 items-center gap-2">
+          <img src="{{ church_logo_url }}" alt="{{ church_name }}" class="mm-mobile-logo">
+          <span class="mm-brand-heading mm-brand-text truncate font-semibold text-indigo-700">{{ church_name }}</span>
+        </div>
+        <a href="{% url 'accounts:logout' %}" class="mm-brand-link flex-shrink-0 text-sm text-indigo-600">Sign out</a>
       </header>
       {% endif %}
 

@@ -72,7 +72,7 @@ python manage.py generate_occurrences --weeks=12
 ### Admin checklist
 
 1. **Create a superuser** — first login account with full access.
-2. **Confirm church settings** — `/admin/core/churchsettings/` (name, timezone, reminder timing).
+2. **Confirm church settings** — `/admin/core/churchsettings/` (name, logo, branding CSS, timezone, reminder timing).
 3. **Confirm campus and service times** — `/admin/campuses/` or **Campuses** in the app. Default seed creates one campus (from `CHURCH_NAME` in `.env`) and your recurring service pattern.
 4. **Generate service occurrences** — concrete dates on the calendar for scheduling (`generate_occurrences` or **setup_services**).
 5. **Confirm default teams** — Greeters, Coffee, Tech, etc. (`setup_teams`). Adjust roles and slot counts in admin or **Teams**.

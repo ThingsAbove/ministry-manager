@@ -1,10 +1,23 @@
 from django.db import models
+from django.templatetags.static import static
+
+from .branding import DEFAULT_BRANDING_CSS
 
 
 class ChurchSettings(models.Model):
     """Singleton-style church configuration."""
 
-    name = models.CharField(max_length=200, default="My Church")
+    name = models.CharField(max_length=200, default="Be Renewed Church")
+    logo = models.ImageField(
+        upload_to="church/",
+        blank=True,
+        help_text="Church logo shown in the app sidebar and admin. Leave blank to use the default.",
+    )
+    branding_css = models.TextField(
+        blank=True,
+        default=DEFAULT_BRANDING_CSS,
+        help_text="Custom CSS for app branding (colors, fonts, sidebar, buttons).",
+    )
     timezone = models.CharField(max_length=63, default="America/New_York")
     reminder_days_before = models.CharField(
         max_length=50,
@@ -26,7 +39,19 @@ class ChurchSettings(models.Model):
         self.pk = 1
         super().save(*args, **kwargs)
 
+    @property
+    def logo_url(self):
+        if self.logo:
+            return self.logo.url
+        return static("img/be-renewed-logo.jpg")
+
     @classmethod
     def load(cls):
-        obj, _ = cls.objects.get_or_create(pk=1)
+        obj, _ = cls.objects.get_or_create(
+            pk=1,
+            defaults={
+                "name": "Be Renewed Church",
+                "branding_css": DEFAULT_BRANDING_CSS,
+            },
+        )
         return obj
