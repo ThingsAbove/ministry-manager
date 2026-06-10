@@ -4,10 +4,10 @@
       <h2 class="text-lg font-semibold text-slate-900">Team Staffing Overview</h2>
       <p class="mt-1 text-sm text-slate-500">
         {{ staffing.window_start|date:"M j" }} – {{ staffing.window_end|date:"M j, Y" }}
-        · Assign volunteers on the rota to fill open slots; RSVP confirms an assigned shift.
+        · Assign volunteers on the rotation grid to fill open slots; RSVP confirms an assigned shift.
       </p>
     </div>
-    <a href="{% url 'scheduling:rota' %}" class="btn-primary">View rota</a>
+    <a href="{% url 'scheduling:rota' %}" class="btn-primary">View rotation</a>
   </div>
 
   <div class="mt-4 flex flex-wrap gap-3 text-sm">

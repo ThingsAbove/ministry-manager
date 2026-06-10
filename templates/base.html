@@ -32,7 +32,7 @@
         {% if user.is_staff or user.is_team_leader %}
         <hr class="my-3 border-slate-200">
         <p class="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Leader</p>
-        <a href="{% url 'scheduling:rota' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Rota Grid</a>
+        <a href="{% url 'scheduling:rota' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Rotation Grid</a>
         <a href="{% url 'scheduling:auto_schedule' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Auto-Schedule</a>
         <a href="{% url 'teams:list' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Teams</a>
         <a href="{% url 'campuses:list' %}" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Campuses</a>

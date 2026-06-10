@@ -1,0 +1,175 @@
+/* Ministry Manager admin theme — matches main app (indigo + slate) */
+
+html[data-theme="light"],
+:root {
+    --primary: #4f46e5;
+    --secondary: #4338ca;
+    --accent: #c7d2fe;
+    --primary-fg: #fff;
+
+    --body-fg: #0f172a;
+    --body-bg: #f8fafc;
+    --body-quiet-color: #64748b;
+    --body-medium-color: #334155;
+    --body-loud-color: #0f172a;
+
+    --header-color: #fff;
+    --header-branding-color: #fff;
+    --header-bg: #4338ca;
+    --header-link-color: #fff;
+
+    --breadcrumbs-fg: #e0e7ff;
+    --breadcrumbs-link-fg: #fff;
+    --breadcrumbs-bg: #3730a3;
+
+    --link-fg: #4f46e5;
+    --link-hover-color: #4338ca;
+    --link-selected-fg: #4338ca;
+
+    --hairline-color: #e2e8f0;
+    --border-color: #cbd5e1;
+
+    --darkened-bg: #f1f5f9;
+    --selected-bg: #e0e7ff;
+    --selected-row: #eef2ff;
+
+    --button-fg: #fff;
+    --button-bg: #4f46e5;
+    --button-hover-bg: #4338ca;
+    --default-button-bg: #4338ca;
+    --default-button-hover-bg: #3730a3;
+}
+
+html[data-theme="dark"] {
+    --primary: #818cf8;
+    --secondary: #6366f1;
+    --accent: #312e81;
+    --primary-fg: #fff;
+
+    --body-fg: #e2e8f0;
+    --body-bg: #0f172a;
+    --body-quiet-color: #94a3b8;
+    --body-medium-color: #cbd5e1;
+    --body-loud-color: #f8fafc;
+
+    --header-color: #fff;
+    --header-branding-color: #fff;
+    --header-bg: #312e81;
+    --header-link-color: #fff;
+
+    --breadcrumbs-fg: #c7d2fe;
+    --breadcrumbs-link-fg: #fff;
+    --breadcrumbs-bg: #1e1b4b;
+
+    --link-fg: #a5b4fc;
+    --link-hover-color: #c7d2fe;
+    --link-selected-fg: #a5b4fc;
+
+    --hairline-color: #334155;
+    --border-color: #475569;
+
+    --darkened-bg: #1e293b;
+    --selected-bg: #312e81;
+    --selected-row: #1e1b4b;
+
+    --button-bg: #4f46e5;
+    --button-hover-bg: #6366f1;
+    --default-button-bg: #4338ca;
+    --default-button-hover-bg: #4f46e5;
+}
+
+#header {
+    background: var(--header-bg);
+    color: var(--header-color);
+}
+
+#branding #site-name a,
+#branding #site-name a:visited,
+#branding #site-name a:link {
+    color: var(--header-branding-color);
+    font-weight: 600;
+    font-size: 1.125rem;
+    letter-spacing: -0.01em;
+}
+
+#branding #site-name a:hover {
+    color: #e0e7ff;
+}
+
+.mm-admin-app-link {
+    color: var(--header-link-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0.95;
+}
+
+.mm-admin-app-link:hover {
+    color: #e0e7ff;
+    opacity: 1;
+}
+
+div.breadcrumbs {
+    background: var(--breadcrumbs-bg);
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: var(--secondary);
+}
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+a.button {
+    border-radius: 0.5rem;
+}
+
+#content {
+    padding: 1.5rem 2rem;
+}
+
+#content-main .module {
+    border-radius: 0.75rem;
+    border: 1px solid var(--hairline-color);
+    overflow: hidden;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.login #header {
+    padding: 1rem 1.5rem;
+}
+
+.login #container {
+    background: var(--body-bg);
+}
+
+.login #content {
+    padding: 2rem 0;
+}
+
+.login #content-main {
+    border-radius: 0.75rem;
+    border: 1px solid var(--hairline-color);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.login .form-row input {
+    border-radius: 0.5rem;
+    border-color: var(--border-color);
+}
+
+.login .form-row input:focus {
+    border-color: #6366f1;
+    outline: none;
+    box-shadow: 0 0 0 1px #6366f1;
+}
+
+.login .submit-row input {
+    background: var(--button-bg);
+}
+
+.login .submit-row input:hover {
+    background: var(--button-hover-bg);
+}
