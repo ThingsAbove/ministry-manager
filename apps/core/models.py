@@ -55,3 +55,21 @@ class ChurchSettings(models.Model):
             },
         )
         return obj
+
+
+class ChurchLogo(ChurchSettings):
+    """Proxy for logo settings in admin."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "church logo"
+        verbose_name_plural = "church logos"
+
+
+class ChurchBranding(ChurchSettings):
+    """Proxy for branding CSS settings in admin."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "church branding"
+        verbose_name_plural = "church branding"

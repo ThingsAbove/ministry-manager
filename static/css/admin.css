@@ -185,3 +185,51 @@ a.button {
 .login .submit-row input:hover {
     background: var(--button-hover-bg);
 }
+
+.mm-admin-logo-preview-thumb {
+    display: block;
+    max-height: 80px;
+    max-width: 200px;
+    object-fit: contain;
+}
+
+.mm-admin-preview-panel {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--hairline-color);
+}
+
+.mm-admin-preview-panel h2 {
+    margin: 0 0 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--body-quiet-color);
+}
+
+.mm-admin-preview-panel .help {
+    margin: 0 0 1rem;
+    color: var(--body-quiet-color);
+}
+
+.mm-branding-preview-frame {
+    border: 1px solid var(--hairline-color);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.mm-branding-preview-row {
+    display: flex;
+    min-height: 280px;
+}
+
+.mm-preview-sidebar {
+    display: block !important;
+}
+
+.mm-preview-main {
+    min-width: 0;
+}

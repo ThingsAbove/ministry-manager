@@ -1,0 +1,49 @@
+{% extends "admin/change_form.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block after_field_sets %}
+<div class="mm-admin-preview-panel">
+  <h2>{% translate "Live preview" %}</h2>
+  <p class="help">{% translate "Sidebar and mobile header samples update when you choose a new file." %}</p>
+  <div class="mm-branding-preview-frame">
+    <div class="mm-branding-preview-row">
+      <aside class="mm-sidebar mm-preview-sidebar w-64 shrink-0 border-r border-slate-200 bg-white">
+        <div class="mm-sidebar-brand">
+          <img
+            src="{{ original.logo_url }}"
+            alt="{{ original.name }}"
+            class="mm-sidebar-logo"
+            data-logo-preview-sidebar
+          >
+        </div>
+        <nav class="mm-sidebar-nav">
+          <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Dashboard</a>
+          <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-100">My Schedule</a>
+        </nav>
+      </aside>
+      <div class="mm-preview-main flex-1">
+        <header class="mm-mobile-header flex h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white px-4">
+          <div class="flex min-w-0 items-center gap-2">
+            <img
+              src="{{ original.logo_url }}"
+              alt="{{ original.name }}"
+              class="mm-mobile-logo"
+              data-logo-preview-mobile
+            >
+            <span class="mm-brand-heading mm-brand-text truncate font-semibold text-indigo-700">{{ original.name }}</span>
+          </div>
+        </header>
+        <div class="p-6">
+          <p class="text-sm text-slate-600">{% translate "Sample page content" %}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'admin/js/church_logo_preview.js' %}"></script>
+{% endblock %}
