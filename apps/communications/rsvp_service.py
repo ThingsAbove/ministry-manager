@@ -1,6 +1,6 @@
 from django.utils import timezone
 
-from .models import Notification, NotificationChannel, NotificationType, RSVP, RSVPStatus
+from .models import RSVP, Notification, NotificationChannel, NotificationType, RSVPStatus
 from .services import dispatch_notification
 
 

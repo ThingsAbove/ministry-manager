@@ -4,7 +4,7 @@ import pytest
 from django.conf import settings
 from django.contrib.auth.models import Group
 
-from apps.accounts.models import ServingFrequency, User
+from apps.accounts.models import User
 from apps.campuses.models import Campus, ServiceOccurrence, ServiceTime, Weekday
 from apps.teams.models import Team, TeamMembership, TeamRole
 

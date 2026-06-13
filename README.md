@@ -7,7 +7,7 @@ Web-based volunteer management system for church ministries. Built with Django, 
 - Volunteer profiles with serving preferences and notification opt-ins
 - Multi-campus service times and team/role management
 - Block-out date calendar for availability
-- Manual rota grid with conflict detection
+- Manual rotation grid with conflict detection
 - Greedy auto-scheduling (skills, certifications, block-outs, load balancing)
 - SMS (Twilio) and email reminders with one-click RSVP links
 - Mass messaging to teams

@@ -1,8 +1,6 @@
 from datetime import timedelta
 
 import pytest
-from django.contrib.auth.models import Group
-from django.conf import settings
 
 from apps.accounts.models import User
 from apps.scheduling.models import Assignment
@@ -15,7 +13,7 @@ from apps.teams.models import Team, TeamMembership, TeamRole
 class TestLeaderTeamList:
     def test_leader_sees_only_led_teams(self, make_team_leader, campus, client):
         led_team = Team.objects.create(name="Led Team", campus=campus)
-        other_team = Team.objects.create(name="Other Team", campus=campus)
+        Team.objects.create(name="Other Team", campus=campus)
         leader = make_team_leader(led_team, username="scoped-leader")
         client.force_login(leader)
 
@@ -82,7 +80,7 @@ class TestLeaderRoster:
         led_team = Team.objects.create(name="My Team", campus=campus)
         other_team = Team.objects.create(name="Not My Team", campus=campus)
         leader = make_team_leader(led_team, username="other-leader")
-        volunteer = make_volunteer(username="extra-vol")
+        make_volunteer(username="extra-vol")
         client.force_login(leader)
 
         response = client.get(f"/teams/{other_team.pk}/roster/", HTTP_HOST="localhost")
@@ -148,13 +146,14 @@ class TestLeaderRota:
     def test_rota_shows_only_led_teams(
         self, make_team_leader, campus, service_time, client
     ):
+        from django.utils import timezone
+
         from apps.campuses.models import ServiceOccurrence
         from apps.teams.models import Team, TeamRole
-        from django.utils import timezone
 
         led_team = Team.objects.create(name="Led Team", campus=campus)
         other_team = Team.objects.create(name="Other Team", campus=campus)
-        led_role = TeamRole.objects.create(team=led_team, name="Greeter", slots_per_service=1)
+        TeamRole.objects.create(team=led_team, name="Greeter", slots_per_service=1)
         TeamRole.objects.create(team=other_team, name="Barista", slots_per_service=1)
         leader = make_team_leader(led_team, username="rota-scoped-lead")
         occurrence = ServiceOccurrence.objects.create(
@@ -177,9 +176,10 @@ class TestLeaderRota:
     def test_rota_shows_rsvp_status(
         self, leader_client, make_volunteer, service_time, role, team
     ):
+        from django.utils import timezone
+
         from apps.campuses.models import ServiceOccurrence
         from apps.communications.models import RSVP, RSVPStatus
-        from django.utils import timezone
 
         client, leader, team = leader_client
         volunteer = make_volunteer(username="declined-vol")
@@ -252,6 +252,7 @@ class TestLeaderRota:
     ):
         from django.core import mail
         from django.utils import timezone
+
         from apps.campuses.models import ServiceOccurrence
 
         client, leader, team = leader_client
