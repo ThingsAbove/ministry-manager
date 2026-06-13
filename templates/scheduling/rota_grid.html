@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Rota — {{ block.super }}{% endblock %}
+{% block title %}Rotation — {{ block.super }}{% endblock %}
 {% block content %}
 <div class="flex items-center justify-between">
-  <h1 class="text-2xl font-bold text-slate-900">Rota Grid</h1>
+  <h1 class="text-2xl font-bold text-slate-900">Rotation Grid</h1>
   <div class="flex gap-2">
     <a href="?week={{ prev_week|date:'Y-m-d' }}" class="btn-secondary text-xs">Previous week</a>
     <a href="?week={{ next_week|date:'Y-m-d' }}" class="btn-secondary text-xs">Next week</a>

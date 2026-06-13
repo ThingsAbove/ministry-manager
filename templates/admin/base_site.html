@@ -1,0 +1,28 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | Ministry Manager{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% if church_branding_css %}
+<style id="church-branding">{{ church_branding_css }}</style>
+{% endif %}
+{% endblock %}
+
+{% block branding %}
+<div id="site-name" class="mm-admin-branding">
+  <a href="{% url 'admin:index' %}" class="mm-admin-branding-link">
+    <img src="{{ church_logo_url }}" alt="" class="mm-admin-logo">
+    <span>{{ church_name }}</span>
+  </a>
+</div>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+
+{% block nav-global %}
+<a href="{% url 'core:dashboard' %}" class="mm-admin-app-link">Back to app</a>
+{% endblock %}

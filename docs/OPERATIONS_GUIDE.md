@@ -32,7 +32,7 @@ flowchart TB
 
     subgraph leader [Team Leader]
         L1[Teams and rosters]
-        L2[Rota Grid]
+        L2[Rotataion Grid]
         L3[Auto-Schedule]
         L4[Mass Message]
         L5[Campuses]
@@ -72,7 +72,7 @@ python manage.py generate_occurrences --weeks=12
 ### Admin checklist
 
 1. **Create a superuser** — first login account with full access.
-2. **Confirm church settings** — `/admin/core/churchsettings/` (name, timezone, reminder timing).
+2. **Confirm church settings** — `/admin/core/churchsettings/` (name, logo, branding CSS, timezone, reminder timing).
 3. **Confirm campus and service times** — `/admin/campuses/` or **Campuses** in the app. Default seed creates one campus (from `CHURCH_NAME` in `.env`) and your recurring service pattern.
 4. **Generate service occurrences** — concrete dates on the calendar for scheduling (`generate_occurrences` or **setup_services**).
 5. **Confirm default teams** — Greeters, Coffee, Tech, etc. (`setup_teams`). Adjust roles and slot counts in admin or **Teams**.
@@ -159,9 +159,9 @@ Two approaches (often combined):
 
 1. Choose start and end dates.
 2. Run auto-schedule — fills empty slots using preferences, block-outs, skills, certifications, and load balancing.
-3. Review results on **Rota Grid**.
+3. Review results on **Rotation Grid**.
 
-**Manual rota** (**Rota Grid**):
+**Manual rotation** (**Rotation Grid**):
 
 1. Open the week view.
 2. For each team/role slot, pick a volunteer from the dropdown.
@@ -170,7 +170,7 @@ Two approaches (often combined):
 ### 5. Review gaps
 
 - **Dashboard** shows unfilled slot counts for leaders.
-- **Rota Grid** shows “Unfilled” where no volunteer was assigned.
+- **Rotation Grid** shows “Unfilled” where no volunteer was assigned.
 - Celery sends **unfilled slot alerts** to team leaders by email (when worker/beat are running).
 
 Fill gaps manually, adjust rosters, or re-run auto-schedule after roster changes.
@@ -193,7 +193,7 @@ Fill gaps manually, adjust rosters, or re-run auto-schedule after roster changes
 | Service dates generated | Admin | Occurrences exist through target end date |
 | Rosters current | Team Leader | Every scheduled role has eligible members |
 | Skills/certs current | Admin | Required credentials assigned and not expired |
-| Schedule built | Team Leader | Rota has no unfilled slots (or gaps acknowledged) |
+| Schedule built | Team Leader | Rotation has no unfilled slots (or gaps acknowledged) |
 | Volunteers notified | System | Reminders sent; mass message if needed |
 | RSVPs reviewed | Team Leader | Declines replaced or subs found |
 
@@ -253,7 +253,7 @@ If they decline, team leaders are notified to find coverage.
 | View own schedule | Yes | Yes | Yes |
 | Manage team roster | No | Own teams only | All teams |
 | Edit teams/roles | No | Own teams only | All teams |
-| Rota grid | No | Yes | Yes |
+| Rotation grid | No | Yes | Yes |
 | Auto-schedule | No | Yes | Yes |
 | Mass message | No | Own teams only | All teams |
 | Campuses / service times | No | Yes | Yes |

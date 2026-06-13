@@ -1,0 +1,51 @@
+{% extends "admin/change_form.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block after_field_sets %}
+<div class="mm-admin-preview-panel">
+  <h2>{% translate "Live preview" %}</h2>
+  <p class="help">{% translate "Sample UI updates as you edit the CSS above. Save to apply across the app." %}</p>
+  <div class="mm-branding-preview-frame">
+    <style id="branding-preview-css">{{ original.branding_css }}</style>
+    <div class="mm-branding-preview-row">
+      <aside class="mm-sidebar mm-preview-sidebar w-64 shrink-0 border-r border-slate-200 bg-white">
+        <div class="mm-sidebar-brand px-4 py-4">
+          <span class="mm-brand-heading mm-brand-text block text-lg font-semibold text-indigo-700">{{ original.name }}</span>
+        </div>
+        <nav class="mm-sidebar-nav space-y-1 p-4 pt-5 text-sm">
+          <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Dashboard</a>
+          <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-100">My Schedule</a>
+          <hr class="my-3 border-slate-200">
+          <p class="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Leader</p>
+          <a href="#" class="block rounded-lg px-3 py-2 hover:bg-slate-100">Rotation Grid</a>
+        </nav>
+        <div class="border-t border-slate-200 p-4">
+          <p class="text-sm font-medium text-slate-700">Volunteer Name</p>
+          <a href="#" class="mm-brand-link mt-1 text-sm text-indigo-600 hover:text-indigo-800">Sign out</a>
+        </div>
+      </aside>
+      <div class="mm-preview-main flex-1 bg-slate-50">
+        <header class="mm-mobile-header flex h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white px-4">
+          <span class="mm-brand-heading mm-brand-text font-semibold text-indigo-700">{{ original.name }}</span>
+        </header>
+        <div class="p-6 space-y-4">
+          <div class="rounded-lg border border-indigo-200 bg-indigo-50 px-4 py-3 text-sm text-indigo-800">
+            {% translate "Sample notification message" %}
+          </div>
+          <button type="button" class="btn-primary">{% translate "Primary button" %}</button>
+          <label class="checkbox-row">
+            <input type="checkbox" checked>
+            <span>{% translate "Sample checkbox" %}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'admin/js/church_branding_preview.js' %}"></script>
+{% endblock %}

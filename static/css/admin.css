@@ -1,0 +1,235 @@
+/* Ministry Manager admin theme — warm charcoal (Be Renewed default) */
+
+html[data-theme="light"],
+:root {
+    --primary: #332f2e;
+    --secondary: #262322;
+    --accent: #c9b8a8;
+    --primary-fg: #fff;
+
+    --body-fg: #0f172a;
+    --body-bg: #f8fafc;
+    --body-quiet-color: #64748b;
+    --body-medium-color: #334155;
+    --body-loud-color: #0f172a;
+
+    --header-color: #fff;
+    --header-branding-color: #fff;
+    --header-bg: #332f2e;
+    --header-link-color: #fff;
+
+    --breadcrumbs-fg: #e0e7ff;
+    --breadcrumbs-link-fg: #fff;
+    --breadcrumbs-bg: #262322;
+
+    --link-fg: #5c5654;
+    --link-hover-color: #332f2e;
+    --link-selected-fg: #332f2e;
+
+    --hairline-color: #e2e8f0;
+    --border-color: #cbd5e1;
+
+    --darkened-bg: #f1f5f9;
+    --selected-bg: #e0e7ff;
+    --selected-row: #eef2ff;
+
+    --button-fg: #fff;
+    --button-bg: #332f2e;
+    --button-hover-bg: #262322;
+    --default-button-bg: #332f2e;
+    --default-button-hover-bg: #262322;
+}
+
+html[data-theme="dark"] {
+    --primary: #818cf8;
+    --secondary: #6366f1;
+    --accent: #312e81;
+    --primary-fg: #fff;
+
+    --body-fg: #e2e8f0;
+    --body-bg: #0f172a;
+    --body-quiet-color: #94a3b8;
+    --body-medium-color: #cbd5e1;
+    --body-loud-color: #f8fafc;
+
+    --header-color: #fff;
+    --header-branding-color: #fff;
+    --header-bg: #312e81;
+    --header-link-color: #fff;
+
+    --breadcrumbs-fg: #c7d2fe;
+    --breadcrumbs-link-fg: #fff;
+    --breadcrumbs-bg: #1e1b4b;
+
+    --link-fg: #a5b4fc;
+    --link-hover-color: #c7d2fe;
+    --link-selected-fg: #a5b4fc;
+
+    --hairline-color: #334155;
+    --border-color: #475569;
+
+    --darkened-bg: #1e293b;
+    --selected-bg: #312e81;
+    --selected-row: #1e1b4b;
+
+    --button-bg: #4f46e5;
+    --button-hover-bg: #6366f1;
+    --default-button-bg: #4338ca;
+    --default-button-hover-bg: #4f46e5;
+}
+
+#header {
+    background: var(--header-bg);
+    color: var(--header-color);
+}
+
+#branding #site-name a,
+#branding #site-name a:visited,
+#branding #site-name a:link {
+    color: var(--header-branding-color);
+    font-weight: 600;
+    font-size: 1.125rem;
+    letter-spacing: -0.01em;
+}
+
+#branding #site-name a:hover {
+    color: #c9b8a8;
+}
+
+.mm-admin-branding-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mm-admin-logo {
+    height: 2rem;
+    width: 2rem;
+    object-fit: contain;
+}
+
+.mm-admin-app-link {
+    color: var(--header-link-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0.95;
+}
+
+.mm-admin-app-link:hover {
+    color: #e0e7ff;
+    opacity: 1;
+}
+
+div.breadcrumbs {
+    background: var(--breadcrumbs-bg);
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: var(--secondary);
+}
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+a.button {
+    border-radius: 0.5rem;
+}
+
+#content {
+    padding: 1.5rem 2rem;
+}
+
+#content-main .module {
+    border-radius: 0.75rem;
+    border: 1px solid var(--hairline-color);
+    overflow: hidden;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.login #header {
+    padding: 1rem 1.5rem;
+}
+
+.login #container {
+    background: var(--body-bg);
+}
+
+.login #content {
+    padding: 2rem 0;
+}
+
+.login #content-main {
+    border-radius: 0.75rem;
+    border: 1px solid var(--hairline-color);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.login .form-row input {
+    border-radius: 0.5rem;
+    border-color: var(--border-color);
+}
+
+.login .form-row input:focus {
+    border-color: #5c5654;
+    outline: none;
+    box-shadow: 0 0 0 1px #5c5654;
+}
+
+.login .submit-row input {
+    background: var(--button-bg);
+}
+
+.login .submit-row input:hover {
+    background: var(--button-hover-bg);
+}
+
+.mm-admin-logo-preview-thumb {
+    display: block;
+    max-height: 80px;
+    max-width: 200px;
+    object-fit: contain;
+}
+
+.mm-admin-preview-panel {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--hairline-color);
+}
+
+.mm-admin-preview-panel h2 {
+    margin: 0 0 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--body-quiet-color);
+}
+
+.mm-admin-preview-panel .help {
+    margin: 0 0 1rem;
+    color: var(--body-quiet-color);
+}
+
+.mm-branding-preview-frame {
+    border: 1px solid var(--hairline-color);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.mm-branding-preview-row {
+    display: flex;
+    min-height: 280px;
+}
+
+.mm-preview-sidebar {
+    display: block !important;
+}
+
+.mm-preview-main {
+    min-width: 0;
+}
