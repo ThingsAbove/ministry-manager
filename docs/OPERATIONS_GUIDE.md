@@ -16,10 +16,10 @@ Ministry Manager has three permission levels. In the app, **planners** are calle
 
 **Yes.** Team Leaders sit in the middle:
 
-- **More than volunteers:** They can manage rosters, build the schedule (rota), run auto-schedule, send mass messages, and edit campuses/service times in the main app.
-- **Less than admin:** They only manage teams where they are listed as a **leader**. They cannot use Django Admin unless they are also marked as staff. They cannot change system-wide settings, user passwords, or data outside their teams (unless staff grants broader access).
+- **More than volunteers:** They can manage rosters, build the schedule (rotation), run auto-schedule, send mass messages, and edit campuses/service times in the main app.
+- **Less than admin:** They only manage teams where they are listed as a **leader**. They cannot use MM Admin unless they are also marked as staff. They cannot change system-wide settings, user passwords, or data outside their teams (unless staff grants broader access).
 
-The **Admin** auth group exists for labeling, but **staff status** is what unlocks Django Admin and unrestricted access in the app.
+The **Admin** auth group exists for labeling, but **staff status** is what unlocks MM Admin and unrestricted access in the app.
 
 ```mermaid
 flowchart TB
@@ -40,7 +40,7 @@ flowchart TB
 
     subgraph admin [Admin staff]
         A1[All leader tools for every team]
-        A2[Django Admin]
+        A2[MM Admin]
     end
 
     volunteer --> leader
@@ -85,7 +85,7 @@ python manage.py generate_occurrences --weeks=12
 
 ## Adding volunteers
 
-Volunteers are Django **users** with an automatic **VolunteerProfile**. There are three ways to add them:
+Volunteers are MM **users** with an automatic **VolunteerProfile**. There are three ways to add them:
 
 ### 1. Self-registration (recommended for volunteers)
 
@@ -95,7 +95,7 @@ Volunteers are Django **users** with an automatic **VolunteerProfile**. There ar
 
 They can immediately set preferences on **Profile** but are **not** on any team until a leader adds them to a roster.
 
-### 2. Django Admin (recommended for bulk or staff-created accounts)
+### 2. MM Admin (recommended for bulk or staff-created accounts)
 
 1. Go to `/admin/accounts/user/add/`.
 2. Enter username, name, email, password.
@@ -121,7 +121,7 @@ For auto-scheduling to consider someone, they must also:
 - Not have a **block-out** on that date
 - Not exceed their **serving frequency** preference
 
-Skills and certifications are assigned in Django Admin under **Volunteer skills** and **Volunteer certifications**.
+Skills and certifications are assigned in MM Admin under **Volunteer skills** and **Volunteer certifications**.
 
 ---
 
@@ -144,7 +144,7 @@ For each team you lead (**Teams** → **Roster**):
 
 ### 3. Define requirements (admin or staff)
 
-In Django Admin, for each **Team role** optionally set:
+In MM Admin, for each **Team role** optionally set:
 
 - **Required skills** — volunteer must have matching skill records
 - **Required certifications** — e.g. background check, must be current
@@ -240,7 +240,7 @@ If they decline, team leaders are notified to find coverage.
 - View or edit other people’s schedules
 - Manage teams, rosters, or the rota
 - Run auto-schedule or mass messaging
-- Access Django Admin
+- Access MM Admin
 
 ---
 
@@ -257,7 +257,7 @@ If they decline, team leaders are notified to find coverage.
 | Auto-schedule | No | Yes | Yes |
 | Mass message | No | Own teams only | All teams |
 | Campuses / service times | No | Yes | Yes |
-| Django Admin | No | No | Yes |
+| MM Admin | No | No | Yes |
 | Create users | No | No | Yes (admin) |
 
 ---
@@ -275,7 +275,7 @@ If they decline, team leaders are notified to find coverage.
 - **Tech** — Sound Engineer, Presentation, Lighting
 - **Worship Team** — Vocals, Band, Worship Leader
 
-Edit names, slot counts, and roles in **Teams** or Django Admin to match your church.
+Edit names, slot counts, and roles in **Teams** or MM Admin to match your church.
 
 ---
 
@@ -293,7 +293,7 @@ python manage.py seed_demo_volunteers --weeks=13
 
 | Item | Value |
 |------|-------|
-| Test user flag | `is_test_user=True` on demo accounts (visible in Django Admin) |
+| Test user flag | `is_test_user=True` on demo accounts (visible in MM Admin) |
 | Default password | `DemoVolunteer1!` (override with `--password`) |
 | Email in app | `dev@hamradioqrp.com` for all demo users |
 | Actual email delivery | Routed to `TEST_EMAIL_ADDRESS` (`dev@hamradioqrp.com` by default) |
@@ -317,4 +317,4 @@ The seeder generates service occurrences, runs auto-schedule, leaves a few unfil
 ## Related documentation
 
 - [README.md](../README.md) — installation, environment variables, deployment
-- Django Admin: `/admin/` — skills, certifications, users, assignments, notifications
+- MM Admin: `/admin/` — skills, certifications, users, assignments, notifications

@@ -1,8 +1,8 @@
 from datetime import date, timedelta
 
 import pytest
-from django.contrib.auth.models import Group
 from django.conf import settings
+from django.contrib.auth.models import Group
 
 from apps.accounts.models import ServingFrequency
 from apps.communications.models import RSVP, RSVPStatus

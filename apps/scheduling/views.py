@@ -9,10 +9,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
-from apps.communications.rsvp_service import record_rsvp
-
-from apps.accounts.models import VolunteerProfile
 from apps.campuses.models import ServiceOccurrence
+from apps.communications.rsvp_service import record_rsvp
 from apps.teams.views import user_can_manage_team
 
 from .calendar_utils import month_calendar_weeks, shift_month
